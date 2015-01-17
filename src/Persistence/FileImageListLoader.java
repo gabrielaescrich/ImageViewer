@@ -23,7 +23,18 @@ public class FileImageListLoader {
             list.add(new ProxyImage((ImageLoader) new FileImageLoader(path+"/"+file)));
         }
         return list;
-        
     }
     
+    public List<Image> load(){
+        return linkImages(loadImages());
+    }
+
+    private List<Image> linkImages(List<Image> images) {
+        for (int i = 0; i < images.size(); i++) {
+            Image image = images.get(i);
+            image.setNext(images.get((i+1)% images.size()));
+            image.setPrev(images.get((i+images.size()-1)%images.size()));
+        }
+        return images;
+    }
 }
